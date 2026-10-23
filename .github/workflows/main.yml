@@ -1,0 +1,32 @@
+
+name: Build Math Mind APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check project ZIP
+        run: |
+          ls -la
+          test -f MathMind_Android_Project.zip
+
+      - name: Extract project
+        run: |
+          unzip -o MathMind_Android_Project.zip -d extracted
+          find extracted -maxdepth 4 -type f | head -100
+
+      - name: Show project structure
+        run: |
+          find extracted -name settings.gradle -o -name settings.gradle.kts -o -name gradlew -o -name build.gradle
+
+      - name: Build information
+        run: echo "Project files checked. Android project structure must be verified before building."
